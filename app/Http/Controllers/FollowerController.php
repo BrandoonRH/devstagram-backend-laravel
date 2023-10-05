@@ -30,4 +30,28 @@ class FollowerController extends Controller
             "message" => "Has dejado de seguir al Usuario"
         ];
     }
+
+    public function following(User $user)
+    {
+        if(!$user){
+            return response(404)->json("Not found");
+        }
+        
+        $ids = $user->followings->pluck('id')->toArray();
+        $followings = User::whereIn('id', $ids)->latest()->get(); 
+        return [
+            'followings' => $followings
+        ];
+    }
+
+    public function followers(User $user)
+    {
+        $ids = $user->followers->pluck('id')->toArray();
+        $followers = User::whereIn('id', $ids)->latest()->get(); 
+
+        return [
+            'followers' => $followers
+        ];
+    }
+
 }

@@ -37,7 +37,11 @@ class ProfilesController extends Controller
 
     public function editProfile(ProfileEditRequest $request)
     {
-        $data = $request->validated(); 
+        $data = $request->validated();
+
+        $user = User::find(auth()->user()->id);
+        $user->username = $data['username'];  
+
 
        if($request->file('image')){
             $image = $request->file('image'); 
@@ -46,17 +50,14 @@ class ProfilesController extends Controller
             $imageServer->fit(1000,1000); 
             $imagePath = public_path('profiles') . '/' . $nameImage; 
             $imageServer->save($imagePath); 
-        }            
 
-        $user = User::find(auth()->user()->id);
-        $user->username = $data['username']; 
-
-        if($user->image){
-            $image_path = public_path('profiles/' . $user->image); 
-            if(File::exists($image_path)){
-             unlink($image_path);
+            if($user->image){
+                $image_path = public_path('profiles/' . $user->image); 
+                if(File::exists($image_path)){
+                 unlink($image_path);
+                }
             }
-        }
+        }            
 
         $user->image = $nameImage ?? auth()->user()->image ?? null;
         $user->save();  

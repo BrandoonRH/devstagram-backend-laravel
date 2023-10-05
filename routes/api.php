@@ -40,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function() {
    
     Route::delete('/posts/{post}', [PostController::class, 'destroy']); 
 
+    //get post likes
     Route::get('/posts/{post}/likes', [LikeController::class, 'index']); 
     Route::post('/posts/{post}/likes', [LikeController::class, 'store']); 
     Route::delete('/posts/{post}/likes', [LikeController::class, 'destroy']); 
@@ -50,16 +51,24 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('/{user:username}/follow', [FollowerController::class, 'index']);
     Route::post('/{user:username}/follow', [FollowerController::class, 'store']); 
     Route::delete('/{user:username}/unfollow', [FollowerController::class, 'destroy']); 
-   
+
+  
+    Route::get('/{user:username}/following', [FollowerController::class, 'following']);
 });
 
 //Show Post user 
 Route::get('/{user:username}/posts/{post}', [PostController::class, 'show']); 
 
+//Get Comments from a Post
 Route::get('/posts/{post}', [PostController::class, 'index']); 
+
+
 
 //Get Profiles User URL 
 Route::get('/{user:username}', [ProfilesController::class, 'index']); 
+
+//Get following followers
+Route::get('/{user:username}/followers', [FollowerController::class, 'followers']);
 
 
 //Auth 

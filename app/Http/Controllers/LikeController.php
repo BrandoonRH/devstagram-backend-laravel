@@ -11,14 +11,15 @@ class LikeController extends Controller
     public function index(Post $post)
     {
         $numLiks = $post->likes->count();
+
         if($post->checkLike(auth()->user())){
             
             return [
                 "userLike" => true,
                 "numLikesPost" => $numLiks 
-            ]; 
+            ];
+
         }else{
-           
             return [
                 "userLike" => false,
                 "numLikesPost" => $numLiks 

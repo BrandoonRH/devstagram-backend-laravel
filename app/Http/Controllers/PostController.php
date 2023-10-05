@@ -12,6 +12,7 @@ use App\Exceptions\MyModelNotFoundException;
 
 class PostController extends Controller
 {
+    
     public function index(Post $post)
     {
             if($post){
@@ -81,7 +82,7 @@ class PostController extends Controller
         $userPost = User::where('id', $post->user_id)->latest()->get(); 
         return [
             'post' => $post,
-            'userPost' => $userPost
+            'userPost' => $userPost,
         ];
        
     }
